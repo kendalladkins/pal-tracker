@@ -15,7 +15,7 @@ namespace PalTracker
             this.Repository = repository;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetTimeEntry")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult Read(int id)
         {
@@ -32,7 +32,7 @@ namespace PalTracker
         public ActionResult Create([FromBody] TimeEntry toCreate)
         {
             var timeEntry = this.Repository.Create(toCreate);
-            return new CreatedAtRouteResult("GetTimeEntry", timeEntry);
+            return new CreatedAtRouteResult("GetTimeEntry", new { id = timeEntry.Id}, timeEntry);
         }
 
         [HttpGet]

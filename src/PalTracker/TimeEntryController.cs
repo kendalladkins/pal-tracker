@@ -17,14 +17,9 @@ namespace PalTracker
 
         [HttpGet("{id}", Name = "GetTimeEntry")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult Read(int id)
+        public IActionResult Read(int id)
         {
-            var timeEntry = this.Repository.Find(id);
-            if (timeEntry.Equals(default(TimeEntry))) {
-                return NotFound();
-            }
-
-            return new OkObjectResult(timeEntry);
+            return Repository.Contains(id) ? (IActionResult) Ok(Repository.Find(id)) : NotFound();
         }
 
         [HttpPost]
